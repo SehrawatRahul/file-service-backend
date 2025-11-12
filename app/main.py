@@ -79,8 +79,3 @@ def root():
 #         return JSONResponse(content=e.errors(), status_code=422)
 #     except Exception as e:
 #         return JSONResponse(content={"error": str(e)}, status_code=500)
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host='localhost', port=8000, reload=True)
