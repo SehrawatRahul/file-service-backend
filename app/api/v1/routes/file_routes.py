@@ -1,10 +1,10 @@
-from fastapi import APIRouter, HTTPException, Depends
-from app.core.minio_client import get_minio_client
 import os
 import re
 import logging
 from datetime import timedelta
-from app.core.auth import verify_token
+# from app.core.auth import verify_token
+from app.core.minio_client import get_minio_client
+from fastapi import APIRouter, HTTPException, Depends
 
 router = APIRouter(prefix="/files", tags=["Files"])
 
@@ -49,7 +49,7 @@ def _get_bucket():
     return os.getenv("MINIO_BUCKET") or os.getenv("AWS_S3_BUCKET")
 
 @router.get("/upload-url")
-def generate_upload_url(file_name: str, user: dict = Depends(verify_token)):
+def generate_upload_url(file_name: str):
     """✔ Protected by Keycloak"""
     _validate_file_name(file_name)
     bucket = _get_bucket()
@@ -66,7 +66,7 @@ def generate_upload_url(file_name: str, user: dict = Depends(verify_token)):
         raise HTTPException(status_code=500, detail="unable to generate upload url")
 
 @router.get("/download-url")
-def generate_download_url(file_name: str, user: dict = Depends(verify_token)):
+def generate_download_url(file_name: str):
     """✔ Protected by Keycloak"""
     _validate_file_name(file_name)
     bucket = _get_bucket()

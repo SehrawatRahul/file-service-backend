@@ -21,10 +21,15 @@ def get_minio_client():
         scheme = "https" if secure else "http"
         endpoint_url = f"{scheme}://{endpoint}"
 
-    return boto3.client(
+    cl = boto3.client(
         "s3",
         endpoint_url=endpoint_url,
         aws_access_key_id=os.getenv("MINIO_ACCESS_KEY"),
         aws_secret_access_key=os.getenv("MINIO_SECRET_KEY"),
         region_name=os.getenv("MINIO_REGION", "us-east-1"),
     )
+    try:
+        print("CL: ", cl.list_buckets())
+    except Exception as e:
+        print(e)
+    return cl

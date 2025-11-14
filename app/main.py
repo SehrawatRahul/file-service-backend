@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from dotenv import load_dotenv
-from app.api.v1.routes import file_routes
+from app.api.v1.routes import file_routes, permit_routes
 
 load_dotenv()
 
@@ -12,6 +12,7 @@ app = FastAPI(
 
 # 👇 This is critical
 app.include_router(file_routes.router, prefix="/api/v1")
+app.include_router(permit_routes.router, prefix='/api/v1')
 
 @app.get("/")
 def root():
